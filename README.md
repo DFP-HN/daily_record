@@ -46,4 +46,27 @@ while let Some(Some(integer)) = optional_integers.pop() {
 
 //Box<dyn Trait> 可以动态分配，实现多态
 ```
+## Day4 10/6
+### 完成了iterators,lifetimes,smart_pointers,tests,quiz3练习题。
+```Rust
+/*
+三种类型的迭代器：
+1、iter,只能读数据
+2、iter_mut,对数据进行引用，可以修改数据
+3、into_iter,拥有数据的所有权
+
+collect方法可以将迭代器收集在一起
+map方法遍历迭代器，将迭代器中的数据传进闭包进行修改
+fold方法可以遍历迭代器，设置一个初始值，将迭代器中的元素累积在一个元素中
+
+生命周期用来确保引用不会在无效内存区域进行
+
+四种类型的指针：
+1、Box
+2、Rc，引用计数指针，只能有一个mut引用，可以有多个引用
+3、Arc，适用于多线程的引用计数指针
+4、Cow，可以拥有数据的所有权，也可以借用数据
+
+#[should_panic],在测试时如果panic则测试通过
+*/
 
