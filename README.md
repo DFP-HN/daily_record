@@ -69,4 +69,53 @@ fold方法可以遍历迭代器，设置一个初始值，将迭代器中的元�
 
 #[should_panic],在测试时如果panic则测试通过
 */
+//问题1，iterators文件中的iterator3.rs
+fn result_with_list() -> Result<Vec<i32>, DivisionError> {
+    let numbers = vec![27, 297, 38502, 81];
+    //为什么unwrap能够通过而?不行
+    let division_results = numbers.into_iter().map(|n| divide(n, 27).unwrap()).collect();//正确
+    //let division_results = numbers.into_iter().map(|n| divide(n, 27)?).collect();//错误
+    //let division_results = numbers.into_iter().map(|n| divide(n, 27)).collect::<Result<Vec<i32>, DivisionError>>(); 正确
+    Ok(division_results0)
+}
+```
+## Day5 10/7
+### 完成了clippy,conversions,macros,tests,threads练习题
+```Rust
+//问题2，conversions文件中的as_ref_mut.rs
+fn num_sq<T: AsMut<u32>>(arg: &mut T) {
+    // TODO: Implement the function body.
+    //为什么不能是*arg
+    let num = *arg.as_mut(); //正确
+    //let num = *arg;错误
+    *arg.as_mut() = num * num;
+}
+//问题3，tests文件中的test5
+unsafe fn modify_by_address(address: usize) {
+    // TODO: Fill your safety notice of the code block below to match your
+    // code's behavior and the contract of this function. You may use the
+    // comment of the test below as your format reference.
+    unsafe {
+        // todo!("Your code goes here")
+        let a_mut = address as *mut u32; //正确
+        //let a_mut = address as *mut usize; 错误
+        //为什么改成u32就对了，usize不对
+        *a_mut = 0xAABBCCDD;
+    }
+}
+//问题4，tests文件中的test6.rs
+unsafe fn raw_pointer_to_box(ptr: *mut Foo) -> Box<Foo> {
+    // SAFETY: The `ptr` contains an owned box of `Foo` by contract. We
+    // simply reconstruct the box from that pointer.
+    let mut ret: Box<Foo> = unsafe {
+        Box::from_raw(ptr)
+    };
+    unsafe {
+        ret.b = Some("hello".to_string())
+        //*ret.b = Some("hello".to_string()) 错误
+        //自动解引用是如何实现的
+    };
+    ret
+}
+```
 
