@@ -118,4 +118,18 @@ unsafe fn raw_pointer_to_box(ptr: *mut Foo) -> Box<Foo> {
     ret
 }
 ```
-
+## Day6 10/8
+### 
+## Day7 10/9
+###
+## Day9 10/10
+### 完成了algorithm练习题，第一阶段编程题全部完成。
+## Day10 10/11
+### 配置好了rCore-Camp的实验环境。
+## Day11 10/12
+```shell
+//用于检查文件类型的命令
+file target/riscv64gc-unknown-none-elf/debug/os
+//反汇编代码，执行反汇编时报错，发现没有rust-objdump命令，找了半小时，发现需要安装cargo-binutils和添加llvm-tools-preview组件。
+rust-objdump -S target/riscv64gc-unknown-none-elf/debug/os
+```
