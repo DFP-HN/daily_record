@@ -133,3 +133,51 @@ file target/riscv64gc-unknown-none-elf/debug/os
 //反汇编代码，执行反汇编时报错，发现没有rust-objdump命令，找了半小时，发现需要安装cargo-binutils和添加llvm-tools-preview组件。
 rust-objdump -S target/riscv64gc-unknown-none-elf/debug/os
 ```
+## Day12 10/13
+```Rust
+/*
+Rust宏模式匹配类型有
+1. literal 匹配字面量，如字符串、字符、数字或布尔值
+2. ident 匹配标识符（identifier），如变量名或函数名。
+3. path 匹配路径（通常是模块路径），如 std::io::Read。
+4. expr 匹配任意合法的表达式（expression）。
+5. ty 匹配类型（type）。
+6. stmt 匹配语句（statement）。
+7. block 匹配代码块（block），如 { ... }。
+8. tt 匹配任意标记树，是最灵活的匹配类型。
+9. meta 匹配属性的元信息（metadata），如 #[derive(Debug)]。
+10. item 匹配任意 Rust 项目（item），如函数、结构体、枚举等定义。
+11. vis 匹配可见性修饰符（visibility），如 pub。
+12. lifetime 匹配生命周期参数（lifetime），如 'a。
+*/
+```
+## Day13 10/14
+```Rust
+OUTPUT_ARCH(riscv) //指定目标架构为 RISC-V。
+ENTRY(_start) //定义程序的入口点为 _start。
+BASE_ADDRESS = 0x80200000; 
+. = BASE_ADDRESS; //.表示当前地址（即程序加载位置）。
+
+la sp, boot_stack_top //la：这是 load address 指令，用于加载符号地址到寄存器中。
+```
+## Day14 10/15
+```Rust
+//#[link_section = ".text.entry"]：将entry_point函数放置在.text.entry段中。
+#![no_std] // 不链接标准库，适用于嵌入式或低层次开发
+#![no_main] // 禁用标准入口点
+
+#[link_section = ".text.entry"] // 将函数放入自定义段
+#[no_mangle] // 禁止名字重整，保持函数名不变
+pub extern "C" fn entry_point() -> ! {
+    // 无限循环，避免函数返回
+    loop {}
+}
+
+core::arch::global_asm!(include_str!("link_app.S"));
+//使用 include_str! 宏将一个外部的汇编文件 link_app.S 的内容读入为字符串，并插入到 Rust 代码中。
+
+macro LOAD_GP n
+   ld x\n, \n*8(sp)
+endm
+//ld x\n, \n*8(sp) 是一条加载指令，从栈指针 sp 指向的地址加载数据到指定的寄存器
+```
